@@ -1,0 +1,56 @@
+<style>
+	h2 {
+		margin: 5px;
+
+	}
+	a {
+		margin: 2px;
+
+	}
+
+    .border {
+   
+    }
+    p {
+        margin-left: 30px;
+    }
+    button {
+    	color: blue;
+    	box-shadow: 2px 5px;
+    	border-radius: 15px
+    }
+
+    .member h4 p {
+    	border: 4px solid;
+    }
+</style>
+<div class="border">
+
+<a href="/groups" style="float: right;">Dashboard</a>
+<h3>
+    <%= @group.name %>
+    <% if @group.users_joined_ids.include? current_user.id %>
+        <a href="/groups/<%= @group.id %>/unjoin" data-method="post"><button>Leave Group</button></a>
+    <% else %>
+        <a href="/groups/<%= @group.id %>/join" data-method="post"><button>Join Group</button></a>
+    <% end %>
+</h3>
+<p><%= @group.description %></p>
+<h4>
+    Created By:
+    <% if current_user.id == @group.user.id %>
+        YOU
+    <% else %>
+        <%= @group.user.first_name %> <%= @group.user.last_name %>
+    <% end %>
+</h4>
+
+<div class="member">
+	<h4>Members:</h4>
+	<% @group.users_joined.order("created_at DESC").each do |user| %>
+    <p><%= user.first_name %> <%= user.last_name %></p>
+    <% end %>
+</div>
+
+
+</div>

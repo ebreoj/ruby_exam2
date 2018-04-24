@@ -1,0 +1,44 @@
+
+
+
+<div class="wrap">
+		<h2>Hi <%= current_user.first_name %> <%= current_user.last_name %>!!!</h2>
+		<h4>Here are the organizations you may join:</h4>
+		
+	<div class="groups">
+			
+			<% @groups.each do |g| %>
+
+			<p><% if current_user.id == g.user.id %>
+				<a href="groups/<%= g.id %>/destroy" data-method="delete">X</a>
+			<% end %>
+			<a href="groups/<%= g.id %>"><%= g.name %></a>
+    		</p>
+    		<p class="group_info">Members: <%= g.joins.count %></p>
+    		<p class="group_info"><%= g.description %></p>
+			<% end %>
+	</div>
+
+	<div class="add_group">
+
+		<form action="/groups/create" method="post">
+			<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        	<h3>Create a new organization:</h3>
+        <p>
+            <label for="name">Org Name: </label>
+            <input type="text" name="group[name]" id="name">
+        </p>
+        <p>
+            <label for="description">Description: </label>
+            <textarea name="group[description]" id="description"></textarea>
+        </p>
+        	<input class="create" type="submit" value="Create">
+    	</form>
+	</div>
+</div>
+
+
+
+
+
+
